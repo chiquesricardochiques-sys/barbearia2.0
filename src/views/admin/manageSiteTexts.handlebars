@@ -1,0 +1,44 @@
+<div class="container">
+    <header>
+        <h1>Interface do Site</h1>
+        <div class="subtitle">Personalização de Textos Globais</div>
+    </header>
+
+    {{#each campos}}
+    <div class="config-node">
+        <form action="{{#if (eq this.type 'file')}}/admin/site-texts/upload{{else}}/admin/site-texts{{/if}}" method="POST" {{#if (eq this.type 'file')}}enctype="multipart/form-data"{{/if}}>
+            <div class="config-label">
+                <i data-lucide="layout-template" style="width:14px"></i> {{this.label}}
+            </div>
+            <div class="input-wrapper">
+                {{#if (eq this.type 'text')}}
+                    <input type="text" name="value" value="{{lookup ../textos this.key}}">
+                {{else if (eq this.type 'file')}}
+                    <input type="file" name="file">
+                    <input type="hidden" name="imgAntiga" value="{{lookup ../textos this.key}}">
+                {{/if}}
+                <input type="hidden" name="key_name" value="{{this.key}}">
+                <button type="submit" class="btn-update">
+                    <i data-lucide="refresh-cw" style="width:16px"></i> Atualizar
+                </button>
+            </div>
+
+            {{#if (eq this.type 'file')}}
+                {{#if (lookup ../textos this.key)}}
+                <div class="preview">
+                    <img src="/img/imgIntro/{{lookup ../textos this.key}}" alt="{{this.label}}" style="max-width:200px;">
+                </div>
+                {{/if}}
+            {{/if}}
+        </form>
+    </div>
+    {{/each}}
+
+    <div class="status-footer">
+        <span class="live-indicator"></span> Sincronizado com o Banco de Dados em tempo real
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+</script>

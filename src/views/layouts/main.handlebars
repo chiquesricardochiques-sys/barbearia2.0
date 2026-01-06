@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{{header_title}} | Serviços e Informações</title>
+    <meta name="description" content="Meu site oferece informações claras, rápidas e seguras sobre nossos serviços e novidades.">
+    <link rel="stylesheet" href="/css/cssConponentes/footerHeader.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="D:\Fontstt\bootstrap-icons-1.11.0\bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/clientHome.css">
+    {{#if register}}
+        <link rel="stylesheet" href="/css/publicRegister.css">
+        {{else}}
+        <link rel="stylesheet" href="/css/publicHome.css">
+        
+    {{/if}}
+    <link rel="stylesheet" href="/css/cssConponentes/footerHeader.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+<body>
+
+    {{> public/header}}
+    <main>
+        {{{body}}}
+    </main>
+    {{> public/footer}}
+</body>
+</html>

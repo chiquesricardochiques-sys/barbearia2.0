@@ -1,0 +1,128 @@
+
+<div class="agendamento-form">
+    <h2><i class="fas fa-calendar-check"></i> Agendar</h2>
+
+    <div class="step-header">
+        <span class="step-number">1</span> Profissional e Serviço
+    </div>
+    
+    <select id="profissionalSelect">
+        {{#each profissionais}}
+            <option value="{{this.id}}" {{#if (eq this.id ../selectedProfissional)}}selected{{/if}}>{{this.nome}}</option>
+        {{/each}}
+    </select>
+
+    <select name="servico_id" id="servicoSelect" style="margin-top: 10px;">
+        {{#each servicos}}
+            <option value="{{this.id}}" {{#if (eq this.id ../selectedServico)}}selected{{/if}}>{{this.nome}}</option>
+        {{/each}}
+    </select>
+    <div class="step-header">
+        <span class="step-number">4</span> Observações (opcional)
+    </div>
+
+    <textarea 
+        name="observacoes" 
+        placeholder="Descreva o corte se quiser (opcional)"
+        style="width:100%; min-height:80px;"
+    ></textarea>
+
+
+    <div class="step-header">
+        <span class="step-number">2</span> Selecione a Data
+    </div>
+    
+    <div class="date-wrapper">
+        <i class="fas fa-calendar-alt"></i>
+        <input type="date" id="dataSelect" value="{{selectedData}}" min="{{currentDate}}" />
+    </div>
+
+    <div class="step-header">
+        <span class="step-number">3</span> Escolha o Horário
+    </div>
+    
+    <div id="horariosGrid">
+        <div class="empty-notice">Selecione uma data para ver os horários.</div>
+    </div>
+</div>
+
+<script>
+/**
+ * Função Principal para Atualizar os Horários via AJAX
+ */
+async function atualizarHorarios() {
+    const profSelect = document.getElementById('profissionalSelect');
+    const dataSelect = document.getElementById('dataSelect');
+    const servSelect = document.getElementById('servicoSelect');
+    const grid = document.getElementById('horariosGrid');
+
+    const profId = profSelect.value;
+    const dataValue = dataSelect.value;
+    const servId = servSelect.value;
+
+    // Se não houver data selecionada, interrompe
+    if (!dataValue) {
+        grid.innerHTML = '<div class="empty-notice">Selecione uma data acima.</div>';
+        return;
+    }
+
+    // Feedback de carregamento
+    grid.innerHTML = '<div class="loader"><i class="fas fa-circle-notch fa-spin"></i> Buscando horários...</div>';
+
+    try {
+        const response = await fetch(`/client/ajax/horarios?profissional_id=${profId}&data=${dataValue}`);
+        
+        if (!response.ok) throw new Error('Erro na requisição');
+        
+        const horarios = await response.json();
+        grid.innerHTML = ''; // Limpa o loader
+
+        if (horarios.length === 0) {
+            grid.innerHTML = '<div class="empty-notice">Nenhum horário disponível para este dia.</div>';
+            return;
+        }
+
+        // Criar os Cards para cada horário
+        horarios.forEach(h => {
+            const card = document.createElement('div');
+            const estaDisponivel = h.disponivel;
+            
+            card.className = `horario-card ${estaDisponivel ? 'disponivel' : 'indisponivel'}`;
+
+            let statusLabel = estaDisponivel ? 'Livre' : (h.agendamento ? 'Ocupado' : 'Bloqueado');
+
+            card.innerHTML = `
+                <span class="status">${statusLabel}</span>
+                <span class="time">${h.hora}</span>
+                ${estaDisponivel ? `
+                    <form method="POST" action="/client/schedule" style="width:100%; display:flex; justify-content:center;">
+                        <input type="hidden" name="profissional_id" value="${profId}">
+                        <input type="hidden" name="servico_id" value="${servId}">
+                        <input type="hidden" name="data" value="${dataValue}">
+                        <input type="hidden" name="hora" value="${h.hora}">
+                        <button type="submit" class="btn-agendar" onclick="this.innerText='...';">Agendar</button>
+                    </form>
+                ` : ''}
+            `;
+            
+            grid.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error('Erro:', error);
+        grid.innerHTML = '<div class="loader" style="color:var(--danger-red);">Erro ao carregar horários.</div>';
+    }
+}
+
+// Eventos de Escuta
+document.getElementById('profissionalSelect').addEventListener('change', atualizarHorarios);
+document.getElementById('dataSelect').addEventListener('change', atualizarHorarios);
+document.getElementById('servicoSelect').addEventListener('change', atualizarHorarios);
+
+// Execução inicial (Caso a página já carregue com valores)
+window.addEventListener('load', () => {
+    if(document.getElementById('dataSelect').value) {
+        atualizarHorarios();
+    }
+});
+</script>

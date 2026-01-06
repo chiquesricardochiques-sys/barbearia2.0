@@ -1,0 +1,120 @@
+
+<h1 style="text-align: center; color: white;">MEUS HORÁRIOS</h1>
+{{#if success}}
+  <div class="message success">{{success}}</div>
+{{/if}}
+
+{{#if error}}
+  <div class="message error">{{error}}</div>
+{{/if}}
+
+<ul>
+  {{#each agendamentos}}
+  
+
+    <li class="schedule-card" data-date="{{dataTime}}" data-time="{{hora}}">
+      
+      <div class="main-info">
+        <i class="far fa-calendar-check"></i> {{data}} às {{hora}}
+      </div>
+      
+      <div class="sub-info">
+        <i class="fas fa-cut"></i> <span><strong>Serviço:</strong> {{servico}}</span>
+      </div>
+      
+      <div class="sub-info">
+        <i class="fas fa-user-tie"></i> <span><strong>Com:</strong> {{profissional}}</span>
+      </div>
+
+      <div class="countdown-container">
+        <span class="countdown-text" id="timer-{{id}}">
+            <i class="fas fa-hourglass-half"></i> Sincronizando...
+        </span>
+      {{#if observacoes}}
+        <div class="sub-info">
+          <i class="fas fa-sticky-note"></i>
+          <span>
+            <strong>Obs:</strong>
+            <em>{{observacoes}}</em>
+
+          </span>
+        </div>
+      {{/if}}
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="bar-{{id}}"></div>
+        </div>
+      </div>
+
+      <form method="POST" action="/client/my-schedules/delete" onsubmit="return confirm('Deseja realmente cancelar seu horário?');">
+        <input type="hidden" name="agendamento_id" value="{{id}}">
+        <button type="submit" class="btn-delete">
+            <i class="fas fa-times-circle"></i> Cancelar Agendamento
+        </button>
+      </form>
+    </li>
+  {{/each}}
+
+  {{#unless agendamentos.length}}
+    <li class="empty-message">
+        <i class="fas fa-calendar-day" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+        Você não possui agendamentos.
+    </li>
+  {{/unless}}
+</ul>
+
+<script>
+  function updateCounters() {
+    const cards = document.querySelectorAll('.schedule-card');
+    
+    cards.forEach(card => {
+      const dateStr = card.getAttribute('data-date'); 
+      const timeStr = card.getAttribute('data-time'); 
+      const timerDisplay = card.querySelector('.countdown-text');
+      const barFill = card.querySelector('.progress-bar-fill');
+
+      // Cria a data final (Agendamento)
+      const targetDate = new Date(`${dateStr}T${timeStr}`);
+      const now = new Date();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        timerDisplay.innerHTML = "<i class='fas fa-check-double'></i> Horário Chegou!";
+        barFill.style.width = "100%";
+        barFill.style.background = "var(--neon-blue)";
+        return;
+      }
+
+      // Cálculo de dias, horas, minutos e segundos
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+      // Atualiza o texto do cronômetro
+      let timeLeft = "Faltam: ";
+      if(d > 0) timeLeft += `${d}d `;
+      timeLeft += `${h}h ${m}m ${s}s`;
+      timerDisplay.innerHTML = `<i class="fas fa-history"></i> ${timeLeft}`;
+
+      // Lógica da Varinha (Preenchimento)
+      // Definimos que 24h antes do agendamento a barra começa a encher do 0 ao 100%
+      const totalWindow = 24 * 60 * 60 * 1000; // Janela de 24 horas
+      let progress = 100 - (diff / totalWindow * 100);
+      
+      if (progress < 5) progress = 5; // Mantém um mínimo visível
+      if (progress > 100) progress = 100;
+      
+      barFill.style.width = progress + "%";
+      
+      // Efeito de pulso se faltar menos de 1 hora
+      if (diff < (1000 * 60 * 60)) {
+          barFill.style.boxShadow = (s % 2 === 0) ? "0 0 20px var(--neon-blue)" : "0 0 5px var(--neon-blue)";
+      }
+    });
+  }
+
+  // Execução
+  setInterval(updateCounters, 1000);
+  updateCounters();
+</script>
+

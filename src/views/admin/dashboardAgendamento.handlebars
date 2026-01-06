@@ -1,0 +1,107 @@
+
+    <header>
+        <div class="user-info">
+            <p>Bom dia,</p>
+            <h1>{{admin.nome}} 👋</h1>
+        </div>
+        <div class="notification-icon">
+            <i class="ph ph-bell"></i>
+            <div class="badge"></div>
+        </div>
+    </header>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <span>Hoje</span>
+            <h2>R$ {{formatMoney lucroHoje}}</h2>
+        </div>
+        <div class="stat-card">
+            <span>Semana</span>
+            <h2>R$ {{formatMoney lucroSemana}}</h2>
+        </div>
+        <div class="stat-card">
+            <span>Agendados</span>
+            <h2>{{totalHoje}}</h2>
+        </div>
+    </div>
+
+    <div class="quick-menu">
+        <a href="/admin/professionals" class="shortcut">
+            <div class="icon-box"><i class="ph ph-users"></i></div>
+            <span>Equipe</span>
+        </a>
+        <a href="/admin/services" class="shortcut">
+            <div class="icon-box"><i class="ph ph-scissors"></i></div>
+            <span>Serviços</span>
+        </a>
+        <a href="/admin/blocks" class="shortcut">
+            <div class="icon-box"><i class="ph ph-calendar-x"></i></div>
+            <span>Bloquear</span>
+        </a>
+        <a href="/admin/comments" class="shortcut">
+            <div class="icon-box"><i class="ph ph-chat-circle"></i></div>
+            <span>Feedbacks</span>
+        </a>
+    </div>
+
+    <section class="agenda-section">
+        <div class="section-header">
+            <h3>Agenda de Hoje</h3>
+            <a href="/admin/weekly-agenda"
+               style="color: var(--accent-blue); font-size: 0.8rem; text-decoration: none;">
+                Ver tudo
+            </a>
+        </div>
+
+        <div class="appointment-list">
+
+            {{#if agenda.length}}
+
+                {{#each agenda}}
+                <div class="appointment-item {{#if finalizado}}done{{/if}}">
+                    <div class="client-info">
+                        <div class="client-avatar">
+                            {{iniciais cliente}}
+                        </div>
+                        <div class="client-details">
+                            <h4>{{cliente}}</h4>
+                            <p>{{servico}} • {{profissional}}</p>
+                            {{#if observacoes}}
+                            <p style="font-size: 0.85rem;color: #555;margin-top: 2px;display: flex;align-items: center;" class="observacoes">
+                                <i style="margin-right: 5px;color:  #0066cc;" class="fas fa-sticky-note"></i> {{observacoes}}
+                            </p>
+                            {{/if}}
+
+                        </div>
+                    </div>
+                    <div class="time-tag">{{hora}}</div>
+                </div>
+                {{/each}}
+
+            {{else}}
+                <p style="text-align:center; opacity:.6;">
+                    Nenhum agendamento para hoje
+            {{/if}}
+
+        </div>
+    </section>
+
+    <nav class="bottom-nav">
+        <a href="/admin/dashboard" class="nav-item active">
+            <i class="ph ph-house-line"></i>
+            <span>Início</span>
+        </a>
+        <a href="/admin/weekly-agenda" class="nav-item">
+            <i class="ph ph-calendar-blank"></i>
+            <span>Agenda</span>
+        </a>
+        <a href="/admin/site-texts" class="nav-item">
+            <i class="ph ph-layout"></i>
+            <span>Site</span>
+        </a>
+        <a href="/admin/logout" class="nav-item" style="color: var(--danger);">
+            <i class="ph ph-sign-out"></i>
+            <span>Sair</span>
+        </a>
+    </nav>
+
