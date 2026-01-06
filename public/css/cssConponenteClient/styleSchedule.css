@@ -1,0 +1,249 @@
+:root {
+    --bg-color: #050505;
+    --card-bg: rgba(31, 40, 51, 0.9);
+    --neon-blue: #66fcf1;
+    --text-primary: #e0e0e0;
+    --input-bg: #1f2833;
+    --danger-red: #ff3b3b;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    background-image: radial-gradient(circle at top right, #1a1a2e 0%, #000000 70%);
+    color: var(--text-primary);
+    padding: 15px;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.agendamento-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+h2 {
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+    text-shadow: 0 0 10px rgba(102, 252, 241, 0.3);
+}
+
+/* Estilo dos Passos (Stepper) */
+.step-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 25px 0 12px;
+    color: var(--neon-blue);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.step-number {
+    background: var(--neon-blue);
+    color: #000;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* Inputs e Selects Modernos */
+select, input[type="date"] {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--input-bg);
+    border: 1px solid rgba(102, 252, 241, 0.2);
+    border-radius: 12px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+    appearance: none;
+}
+
+select:focus, input[type="date"]:focus {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 12px rgba(102, 252, 241, 0.2);
+}
+
+/* Wrapper do Input de Data para o Ícone */
+.date-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.date-wrapper i {
+    position: absolute;
+    left: 15px;
+    color: var(--neon-blue);
+    pointer-events: none;
+}
+
+input[type="date"] {
+    padding-left: 45px;
+}
+
+/* Grid de Horários (Cards) */
+#horariosGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.horario-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 12px 5px;
+    border-radius: 12px;
+    text-align: center;
+    transition: 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+}
+
+.horario-card.disponivel {
+    border-bottom: 3px solid var(--neon-blue);
+}
+
+.horario-card.indisponivel {
+    opacity: 0.3;
+    filter: grayscale(1);
+}
+
+.horario-card .time {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.horario-card .status {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--neon-blue);
+    margin-bottom: 5px;
+}
+
+/* Botão de Agendar dentro do Card */
+.btn-agendar {
+    background: var(--neon-blue);
+    color: #000;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.7rem;
+    width: 90%;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.loader {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 30px;
+    color: var(--neon-blue);
+    font-size: 0.9rem;
+}
+
+/* Estilo para avisos */
+.empty-notice {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-size: 0.85rem;
+    border: 1px dashed #333;
+    border-radius: 10px;
+}
+/* ===========================
+   Versão Desktop / Telas Grandes
+=========================== */
+@media screen and (min-width: 768px) {
+    body {
+        padding: 40px;
+        background-image: radial-gradient(circle at top right, #1a1a2e 0%, #000000 100%);
+    }
+
+    .agendamento-form {
+        max-width: 700px;
+        padding: 30px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 35px;
+    }
+
+    .step-header {
+        font-size: 1rem;
+        margin: 30px 0 15px;
+        gap: 15px;
+    }
+
+    .step-number {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+
+    select, input[type="date"], textarea {
+        font-size: 1.1rem;
+        padding: 16px;
+    }
+
+    input[type="date"] {
+        padding-left: 50px;
+    }
+
+    #horariosGrid {
+        grid-template-columns: repeat(4, 1fr); /* Mais colunas no desktop */
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .horario-card {
+        padding: 18px 10px;
+        min-height: 100px;
+    }
+
+    .horario-card .time {
+        font-size: 1.25rem;
+    }
+
+    .horario-card .status {
+        font-size: 0.75rem;
+        margin-bottom: 8px;
+    }
+
+    .btn-agendar {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        width: 100%;
+    }
+
+    .loader, .empty-notice {
+        font-size: 1rem;
+        padding: 30px;
+    }
+}

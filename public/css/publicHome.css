@@ -1,0 +1,203 @@
+@import url(cssConponentes/publicServises.css);
+@import url(cssConponentes/publicProfisionais.css);
+@import url(cssConponentes/publicComentarios.css);
+@import url(cssConponentes/footer.css);
+
+/* =========================
+   VARIÁVEIS GLOBAIS
+========================= */
+:root {
+    --primary-green: #00ce11;
+    --primary-blue: #00aeff;
+    --text-light: #fff;
+    --overlay-dark: rgba(0, 0, 0, 0.5);
+    --border-radius: 10px;
+
+    --shadow-btn-green: 
+        inset 0 0 0px 2px var(--primary-green),
+        inset 0 0 3px 4px #013f06,
+        inset 0 0 5px 5px #046b0d, 
+        inset 3px 3px 7px 5px #b5ffc1,
+        inset -3px -3px 7px 5px #03460e,
+        0 0 5px 3px black,
+        0 0 7px var(--primary-green);
+
+    --shadow-btn-blue: 
+        inset 0 0 0px 2px var(--primary-blue),
+        inset 0 0 5px 5px #094561, 
+        inset 0 0 5px 5px #0371a0, 
+        inset 3px 3px 7px 5px #b8e9ff,
+        inset -3px -3px 7px 5px #04425f,
+        0 0 5px 3px black,
+        0 0 7px var(--primary-blue);
+}
+/* public/css/style.css */
+.btn-admin {
+    width: 100%;
+    background-color: var(--primary-blue);
+    color: #fff;
+    box-shadow: var(--shadow-btn-blue);
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    text-shadow: 0 0 3px black;
+}
+
+.btn-admin:hover {
+    background-color: #555;
+}
+
+/* =========================
+   RESET E PADRÕES
+========================= */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #1a1a2e;
+    overflow-x: hidden !important;
+}
+
+main, section, article {
+    width: 100%;
+}
+
+section {
+    text-align: center;
+}
+
+article {
+    min-height: 500px;
+    position: relative;
+    overflow: hidden;
+    
+}
+
+/* =========================
+   HERO / IMG PRINCIPAL
+========================= */
+.img_prinsipal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: 0.5s;
+}
+
+.inf {
+    position: absolute;
+    bottom: 15%;
+    left: 5%;
+    width: 70%;
+    padding: 10px;
+    background-color: var(--overlay-dark);
+    border-radius: 20px;
+    color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 
+        0 0 5px black,
+        inset 3px 3px 5px 1px rgb(184, 184, 184),
+        inset -5px -5px 5px black;
+}
+
+.inf > h1 {
+    font-family: sans-serif;
+    font-size: 1.3em;
+    font-weight: 300;
+    text-align: left;
+    text-shadow: 0 0 5px black, 0 0 5px #fff;
+    padding-left: 5px;
+}
+
+.inf > p {
+    margin-top: 5px;
+    text-align: left;
+    font-family: monospace;
+    font-weight: 700;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    color: #31beff;
+    background-color: rgba(0, 0, 0, 0.493);
+    box-shadow: 
+        0 0 5px #fff,
+        0 0 7px 5px black,
+        inset 0 0 10px 5px black;
+}
+
+/* =========================
+   BOTÕES PRINCIPAIS
+========================= */
+.btns {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    animation: animacao_btn 10s infinite linear;
+}
+
+.btns > .a1,
+.btns > .a2 {
+    padding: 12px 25px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    text-shadow: 0 0 3px black;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.btns > .a1 {
+    background-color: var(--primary-green);
+    box-shadow: var(--shadow-btn-green);
+}
+
+.btns > .a2 {
+    background-color: var(--primary-blue);
+    box-shadow: var(--shadow-btn-blue);
+}
+
+/* =========================
+   ANIMAÇÃO DE BOTÕES
+========================= */
+@keyframes animacao_btn {
+    0%, 45%, 55%, 100% { transform: rotate(0deg); }
+    47% { transform: rotate(2deg); }
+    48% { transform: rotate(-2deg); }
+    49%, 50.5% { transform: rotate(5deg); }
+    51% { transform: rotate(-5deg); }
+    52% { transform: rotate(2deg); }
+    53% { transform: rotate(-2deg); }
+}
+
+/* =========================
+   EVENT IMAGES ANIMADAS
+========================= */
+.evnt {
+    height: 100% !important;
+    font-size: 1.5em;
+    background-color: rgba(0, 0, 0, 0.418);
+}
+
+.img1 { animation: event_img1 20s linear infinite; }
+.img2 { animation: event_img2 20s linear infinite; }
+.img3 { animation: event_img3 20s linear infinite; }
+
+@keyframes event_img1 {
+    0%, 50%, 95%, 100% { opacity: 0; }
+    5%, 35% { opacity: 1; }
+}
+
+@keyframes event_img2 {
+    0%, 40%, 75%, 100% { opacity: 0; }
+    45%, 50% { opacity: 1; }
+}
+
+@keyframes event_img3 {
+    0%, 50%, 75%, 100% { opacity: 0; }
+    80%, 95% { opacity: 1; }
+}
+
